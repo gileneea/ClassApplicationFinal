@@ -1,15 +1,31 @@
-# SoftwareArchitectureCLassApplication
-This is sandbox code to show proof of concept usages of some principles taught in University of Cincinnati's Software Architecture Class.
+Eric Gilene
 
-This code base will be used for several assignments, but it's value comes from having several libraries in play, as well as some example usages of concepts of singletons, static initializers, journaling, and automation APIs
+Josh Lenhart
 
-Additionally, this also shows how to setup a Basic Action to verify a merge request compiles or not.
+Final Project Part 1 – Estimate and Requirements
+
+**Requirements:**
+| **Requirement**                                   | **Classification** | **Description**                                                                                                                   |
+|---------------------------------------------------|--------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+|     Implement   Licensing Library                 |     Required       |     Implement a   licensing library that will sit on top of your fake FlexLM libraries.                                           |
+|     Library API                                   |     Required       |     Need to be   able to check out license, check back in, initialize licensing, and shutdown   licensing as part of your API.    |
+|     Contexts                                      |     Required       |     Library   should have concept of contexts                                                                                     |
+|     Add   additional licensing                    |     Desired        |     Add the   ability to add additional licensing to the library API in order to   accommodate future work.                       |
+|     Implement Batch Operations                    |     Optional       |     Implement the   ability to run licensing API calls in a batch mode to run against multiple   libraries.                       |
+|     Localization   support for the fake FlexLM    |     Optional       |     Implement the   ability to read in multiple localizations of text files for the fake FlexLM                                   |
+
+**Estimation:**
+| **    Task   **                                   | **    Estimation   ** |
+|---------------------------------------------------|-----------------------|
+|     Write up   requirements                       |     1                 |
+|     Implement   fake FlexLM system                |     4                 |
+|     Implement   licensing library                 |     4                 |
+|     Write   licensing API – Check out license     |     1                 |
+|     Write   licensing API – Check in license      |     1                 |
+|     Write   licensing API – Initialize license    |     1                 |
+|     Write   licensing API – Shutdown license      |     1                 |
+|     Implement   contexts                          |     2                 |
+|     Testing/Debug                                 |     4                 |
+|     Total:                                        |     19                |
 
 
-This software to show off some workflows with using Java and automation APIs depends upon a Java Provider to present.  Otherwise a build error will occur.
-
-To Resovle this install a Java JDK (such as Adopt OpenJDK), and then provide the proper header includes and library location.  It is being proposed as future enhancment to make the jvm library be loaded dyanmically.
-
-Or optionally comment out the code in PerformJavaAutomationWorkflow, and turn off building the JavaLoader library.
-
-[Journaling Module Design](documentation_markdown/journaling.md)
