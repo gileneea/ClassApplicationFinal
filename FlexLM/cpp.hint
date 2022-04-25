@@ -1,0 +1,2 @@
+#define FLEXLM_API __declspec(dllexport)
+#define FLEXLM_API __declspec(dllimport)

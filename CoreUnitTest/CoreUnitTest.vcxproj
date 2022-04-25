@@ -38,6 +38,12 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{5dc81d63-ec79-4d3c-be0f-7b36fd069376}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\FlexLM\FlexLM.vcxproj">
+      <Project>{65cfeb00-e0b8-4438-8792-72f39fb5681e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Licensing\Licensing.vcxproj">
+      <Project>{9612cd95-357d-41a5-9422-77d8cd7aefad}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -49,7 +55,7 @@
   </ImportGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>X64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>

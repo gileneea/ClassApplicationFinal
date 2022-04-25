@@ -1,8 +1,12 @@
+#include "../Licensing/Licensing.h"
+#include "../FlexLM/FlexLM.h"
 #include "pch.h"
 #include "..\Core\StringUtils.h"
 #include <string>
 #include <fstream>
 using namespace std;
+
+vector<string> readLicenses(string);
 
 TEST(StringUtilsTests, startsWithNegativeTest)
 {
@@ -31,10 +35,10 @@ TEST(StringUtilsTests, startsWithPostiveTest)
 /// </summary>
 TEST(LicenseAPITests, correctLicenseImport)
 {
-	string file = "license.txt";
-	string licenses[2] = readLicenses(file);	// readLicenses() definition and implementation needed
+	string file = "Licenses.txt";
+	vector<string> licenses = readLicenses(file);
 	bool val = false;
-	if (licenses[0] == "Basic" && licenses[0] == "PartOperations" && licenses[0] == "SolidModeling") {
+	if (licenses.at(0) == "Basic" && licenses.at(1) == "PartOperations" && licenses.at(2) == "SolidModeling") {
 		val = true;
 	}
 	EXPECT_TRUE(val);
@@ -45,21 +49,13 @@ TEST(LicenseAPITests, correctLicenseImport)
 /// </summary>
 TEST(LicenseAPITests, verifyCheckOutLicense)
 {
-	// Write license file for test
-	ofstream myfile;
-	myfile.open("license.txt");
-	myfile << "Basic\nSolid_modeling\n";
-	myfile.close();
-	string file = "license.txt";
-	string license = "Basic";
-	string licenses[2] = readLicenses(file);	// readLicenses() definition and implementation needed
+	CLicensing licenses;
+	licenses.initializeLicenses();
+	licenses.checkOut("Basic");
+	string checkOutStatus = licenses.licensesMap.at("Basic");
 	bool val = false;
-	if(find(begin(licenses), end(licenses), license)) {
-		checkOut("Basic");						// checkOut() definition and implementation needed
-		licenses[1] = readLicenses(file);		// readLicenses() definition and implementation needed
-		if (!find(begin(licenses), end(licenses), license)) {
-			val = true;
-		}
+	if (checkOutStatus == "out") {
+		val = true;
 	}
 	EXPECT_TRUE(val);
 }
@@ -69,19 +65,15 @@ TEST(LicenseAPITests, verifyCheckOutLicense)
 /// </summary>
 TEST(LicenseAPITests, verifyCheckInLicense)
 {
-	// Write license file for test
-	ofstream myfile;
-	myfile.open("license.txt");
-	myfile << "Solid_modeling\n";
-	myfile.close();
-	string file = "license.txt";
-	string license = "Basic";
-	string licenses[1] = readLicenses(file);	// readLicenses() definition and implementation needed
+	CLicensing licenses;
+	licenses.initializeLicenses();
+	licenses.checkOut("Basic");
+	string checkOutStatus = licenses.licensesMap.at("Basic");
 	bool val = false;
-	if (!find(begin(licenses), end(licenses), license)) {
-		checkIn("Basic");						// checkIn() definition and implementation needed
-		licenses[2] = readLicenses(file);		// readLicenses() definition and implementation needed
-		if (find(begin(licenses), end(licenses), license)) {
+	if (checkOutStatus == "out") {
+		licenses.checkIn("Basic");
+		checkOutStatus = licenses.licensesMap.at("Basic");
+		if (checkOutStatus == "in") {
 			val = true;
 		}
 	}
@@ -89,42 +81,29 @@ TEST(LicenseAPITests, verifyCheckInLicense)
 }
 
 /// <summary>
-/// Tests to ensure the initializeLicense() function correctly initializes a licenses and adds them to the licenses.txt
+/// Tests to ensure the initializeLicense() function correctly initializes a licenses and adds them to the licenses map.
 /// </summary>
 TEST(LicenseAPITests, verifyInitializeLicense)
 {
-	// Write license file for test
-	ofstream myfile;
-	myfile.open("license.txt");
-	myfile << "Basic\nSolid_modeling\n";
-	myfile.close();
-	string file = "license.txt";
-	string license = "Advanced";
+	CLicensing licenses;
+	licenses.initializeLicenses();
 	bool val = false;
-	initializeLicense("Advanced");							// initializeLicense() definition and implementation needed
-	string licenses[3] = readLicenses(file);				// readLicenses() definition and implementation needed
-	if (find(begin(licenses), end(licenses), license)) {
+	if (!licenses.licensesMap.empty()) {
 		val = true;
 	}
 	EXPECT_TRUE(val);
 }
 
 /// <summary>
-/// Tests to ensure the shutdownLicense() function correctly shuts down licenses and removes them from the licenses.txt
+/// Tests to ensure the shutdownLicense() function correctly shuts down licenses and removes them from the licenses map.
 /// </summary>
 TEST(LicenseAPITests, verifyShutdownLicense)
 {
-	// Write license file for test
-	ofstream myfile;
-	myfile.open("license.txt");
-	myfile << "Basic\nSolid_modeling\n";
-	myfile.close();
-	string file = "license.txt";
-	string license = "Basic";
+	CLicensing licenses;
+	licenses.initializeLicenses();
+	licenses.shutdownLicenses();
 	bool val = false;
-	shutdownLicense("Basic");								// shutdownLicense() definition and implementation needed
-	string licenses[1] = readLicenses(file);				// readLicenses() definition and implementation needed
-	if (find(begin(licenses), end(licenses), license)) {
+	if (licenses.licensesMap.empty()) {
 		val = true;
 	}
 	EXPECT_TRUE(val);

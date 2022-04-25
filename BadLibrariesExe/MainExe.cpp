@@ -8,17 +8,12 @@
 #include <sstream>
 #include "..\UILibrary\UI.h"
 #include "..\Core\Core.h"
-
-
-
+#include "../Licensing/Licensing.h"
+using namespace std;
 
 int main(int argc, char** argv);
 
 void RunTests();
-
-
-
-
 
 int main(int argc, char** argv)
 {
@@ -32,6 +27,38 @@ int main(int argc, char** argv)
 		theUI->StartGUILoop();
 
 		theUI->ShutDownGUILoop();
+
+		// OUR UI
+		CLicensing licenses;
+		string license;
+		licenses.initializeLicenses();
+		string choice;
+		bool run = true;
+		while (run) {
+			cout << "\nLicensing Library UI:\n";
+			cout << "Print Licenses (1)\n";
+			cout << "Check In License (2)\n";
+			cout << "Checkout License (3)\n";
+			cout << "Exit (4)\n";
+			cout << "Enter selection: ";
+			cin >> choice;
+
+			if (choice == "1") {
+				cout << "\n";
+				licenses.printMap();
+			} else if (choice == "2") {
+				cout << "Enter license to checkin: ";
+				cin >> license;
+				licenses.checkIn(license);
+			} else if (choice == "3") {
+				cout << "Enter license to checkout: ";
+				cin >> license;
+				licenses.checkOut(license);
+			} else if (choice == "4") {
+				run = false;
+			}
+		}
+		licenses.shutdownLicenses();
 	}
 	else 
 	{
@@ -43,9 +70,6 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-
-
-
 
 void RunTests()
 {
